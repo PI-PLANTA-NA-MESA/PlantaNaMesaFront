@@ -14,7 +14,7 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { TokenState } from '../../../store/tokens/tokensReducer';
-import { addToken } from '../../../store/tokens/action';
+import { addToken } from '../../../store/tokens/Action';
 import { toast } from 'react-toastify';
 
 function Navbar() {
@@ -60,24 +60,21 @@ function Navbar() {
     {
       nome: 'Nova Categoria',
       link: '/categoriascadastro',
+    },
+    {
+      nome: 'Carrinho',
+      link: '/carrinho',
+    },
+    {
+      nome: 'Login',
+      link: '/login',
+    },
+    {
+      nome: 'Cadastrar',
+      link: '/cadastrousuario',
     }
 
   ];
-
-  // const settings = [
-  //   {
-  //     nome: 'Perfil',
-  //     link: '/home',
-  //   },
-  //   {
-  //     nome: 'Conta',
-  //     link: '/login',
-  //   },
-  //   {
-  //     nome: 'Logout',
-  //     link: onClick={goLogout}
-  //   }
-  // ];
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -104,23 +101,24 @@ function Navbar() {
       <AppBar position="static" style={{ backgroundColor: "gray" }} >
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                mr: 2,
-                display: { xs: 'none', md: 'flex' },
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'secondary',
-                textDecoration: 'none',
-              }}
-            >
-              Plant
-            </Typography>
+            <Link to='/home'>
+              <Typography
+                variant="h6"
+                noWrap
+                component="a"
+                sx={{
+                  mr: 2,
+                  display: { xs: 'none', md: 'flex' },
+                  fontFamily: 'monospace',
+                  fontWeight: 700,
+                  letterSpacing: '.3rem',
+                  color: 'secondary',
+                  textDecoration: 'none',
+                }}
+              >
+                Plant
+              </Typography>
+            </Link>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }} >
               <Button
@@ -213,26 +211,19 @@ function Navbar() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-
-                {/* {settings.map((setting) => (
-                <Link to={setting.link}>
-                  <MenuItem key={setting.nome} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting.nome}</Typography>
-                  </MenuItem>
-                </Link>
-              ))} */}
-
                 <MenuItem onClick={handleCloseUserMenu}>
-                <Box className='Box' mx={1} >
-                            <Typography className='Typography Typography:hover' variant="h6" color="inherit">
-                                Conta
-                            </Typography>
-                        </Box>
+                  <Box className='Box' mx={1} >
+                    <Link to=''>
+                      <Typography className='Typography Typography:hover' variant="h6" color="inherit">
+                        Conta
+                      </Typography>
+                    </Link>
+                  </Box>
                   <Box className='Box' mx={1} onClick={goLogout} >
-                            <Typography className='Typography Typography:hover' variant="h6" color="inherit">
-                                Logout
-                            </Typography>
-                        </Box>
+                    <Typography className='Typography Typography:hover' variant="h6" color="inherit">
+                      Logout
+                    </Typography>
+                  </Box>
                 </MenuItem>
 
 
@@ -241,6 +232,118 @@ function Navbar() {
           </Toolbar>
         </Container>
       </AppBar>
+  }else {
+    navbarComponent =
+    <AppBar position="static" style={{ backgroundColor: "gray" }} >
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: { xs: 'none', md: 'flex' },
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'secondary',
+              textDecoration: 'none',
+            }}
+          >
+            Plant
+          </Typography>
+
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }} >
+            <Button
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="secondary"
+            >
+            </Button>
+
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
+            >
+              {pages.map((page) => (
+                <MenuItem key={page.nome} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page.nome}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href=""
+            sx={{
+              mr: 2,
+              display: { xs: 'flex', md: 'none' },
+              flexGrow: 1,
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            LOGO
+          </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {pages.slice(0, 2).map((page) => (
+              <Link to={page.link} >
+                <Button
+                  key={page.nome}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {page.nome}
+                </Button>
+              </Link>
+            ))}
+          </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {pages.slice(6, 8).map((page) =>
+              <Link to={page.link} >
+              <Button
+                key={page.nome}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                {page.nome}
+              </Button>
+              </Link>
+              )}
+
+
+
+
+          </Box>
+
+        </Toolbar>
+      </Container>
+    </AppBar>
   }
 
   return (
